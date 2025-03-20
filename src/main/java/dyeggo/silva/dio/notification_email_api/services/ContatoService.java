@@ -1,5 +1,6 @@
 package dyeggo.silva.dio.notification_email_api.services;
 
+import dyeggo.silva.dio.notification_email_api.Exception.BlankFieldException;
 import dyeggo.silva.dio.notification_email_api.domain.Contato;
 import dyeggo.silva.dio.notification_email_api.dtos.ContatoDTO;
 import dyeggo.silva.dio.notification_email_api.repository.ContatoRepository;
@@ -19,14 +20,20 @@ public class ContatoService {
 
         Contato newContato = new Contato();
 
-        newContato.setNome(data.nome());
-        newContato.setEmail(data.email());
-        newContato.setTelefone(data.telefone());
-        newContato.setMenssagem(data.menssagem());
-        contatoRepository.save(newContato);
+        if(data.nome().isBlank() == true || data.telefone().isBlank() == true || data.email().isBlank() == true || data.menssagem().isBlank() == true){
+            throw new BlankFieldException();
+        }else{
+            newContato.setNome(data.nome());
+            newContato.setEmail(data.email());
+            newContato.setTelefone(data.telefone());
+            newContato.setMenssagem(data.menssagem());
+            contatoRepository.save(newContato);
+            return envioEmailService.enviarEmailCliente(newContato.getEmail(), newContato.getNome(),newContato.getMenssagem());
 
-        return envioEmailService.enviarEmailCliente(newContato.getEmail(),
-                newContato.getNome(), newContato.getMenssagem());
+        }
+
+
+
 
     }
     public List<Contato> listAll(){
