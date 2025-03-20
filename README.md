@@ -28,7 +28,9 @@ Além de persistir os dados em banco, a API também envia um email de recebiment
 - Maven
 - Lombok
 - Swagger UI (Java Doc)
-- 
+- Mockito
+- JUnit 5
+  
 ## Implantação em produção
 - Back end: Railway
 - Banco de dados: Postgresql (Railway)
